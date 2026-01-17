@@ -1,0 +1,10 @@
+.title::placeholder {
+  color: #6c757d !important;
+}
+
+.task{
+  resize: none;
+}
+.task::placeholder {
+  color: #6c757d !important;
+}
