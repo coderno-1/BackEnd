@@ -8,3 +8,41 @@
 .task::placeholder {
   color: #6c757d !important;
 }
+
+/* Task list layout */
+#task-list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Task card */
+.task-card {
+  flex: 1 1 calc(33.333% - 1rem); /* 3 cards per row */
+  background-color: #212529;
+  border: 1px solid #495057;
+  border-radius: 12px;
+  padding: 1rem;
+  min-width: 250px;
+}
+
+/* Task title */
+.task-card h5 {
+  margin-bottom: 0.5rem;
+  color: #f8f9fa;
+}
+
+/* Task description */
+.task-card p {
+  color: #adb5bd;
+  font-size: 0.9rem;
+}
+
+/* .tasks{
+  visibility: hidden !important;
+} */
+
+.hidden{
+  /* visibility: hidden !important; */
+  display: none !important;
+}
