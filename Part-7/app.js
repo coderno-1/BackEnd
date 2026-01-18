@@ -19,7 +19,7 @@ app.get('/', function(req, res){
 });
 
 app.post('/create', function(req, res){
-  fs.writeFile(`./files/$req.body.Title.split(' ').join('_').toLowerCase().txt` , req.body.details, function(err){
+  fs.writeFile(`./files/${req.body.Title.split(' ').join('_').toLowerCase()}.txt` , req.body.details, function(err){
      res.redirect('/');
   });
 }

@@ -42,8 +42,8 @@
         <% if(files.length > 0){ %>
           <% files.forEach(function(val){ %>
             <div class="m-5 px-2 py-3 rounded-3 bg-secondary bg-opacity-25">
-              <h5 class="mb-1">Sample Task Title</h5>
-              <p class="mb-0 text-secondary">This is a sample task detail.</p>
+              <h3 class="mb-1"><%= val %></h3>
+              <a class="text-decoration-none" href="">Read More.</a>
             </div>
           <% }) %> 
         <% } else { %>
