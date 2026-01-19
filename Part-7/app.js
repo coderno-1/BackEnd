@@ -26,14 +26,26 @@ app.get("/files/:filename", function(req, res){
     }
     res.render("show", { filename: req.params.filename.split('_').join(' ').toLowerCase().replace('.txt', ''), filedata: filedata });  
   })
+});
+
+app.get('/edit/:filename', function(req, res){
+  res.render('edit', { filename: req.params.filename });
 })
 
 app.post('/create', function(req, res){
   fs.writeFile(`./files/${req.body.Title.split(' ').join('_').toLowerCase()}.txt` , req.body.details, function(err){
      res.redirect('/');
   });
-}
-);
+});
+
+app.post('/rename', function(req, res){
+  fs.rename(`./files/${req.body.oldfilename}`, `./files/${req.body.newfilename.split(' ').join('_').toLowerCase()}.txt`, function(err){
+      if(err){
+        return res.status(500).send('Error renaming file');
+      }
+      res.redirect('/');
+  });
+});
 
 app.listen(3000, function(){
   console.log('server started on port 3000');
