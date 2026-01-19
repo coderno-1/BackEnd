@@ -18,6 +18,16 @@ app.get('/', function(req, res){
   });
 });
 
+app.get("/files/:filename", function(req, res){
+  fs.readFile(`./files/${req.params.filename}`, function(err, filedata){
+    // console.log(filedata.toString());
+    if(err){
+      return res.status(404).send('File not found');
+    }
+    res.render("show", { filename: req.params.filename.split('_').join(' ').toLowerCase().replace('.txt', ''), filedata: filedata });  
+  })
+})
+
 app.post('/create', function(req, res){
   fs.writeFile(`./files/${req.body.Title.split(' ').join('_').toLowerCase()}.txt` , req.body.details, function(err){
      res.redirect('/');
