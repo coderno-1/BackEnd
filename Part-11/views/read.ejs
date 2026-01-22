@@ -21,14 +21,14 @@
       <% if(Users.length >0) { %>
         
       <% Users.forEach(function(user) { %>
-       <div class="user w-90 p-4 bg-zinc-800 rounded-lg">
+       <div class="user w-80 p-4 bg-zinc-800 rounded-lg">
           <div class="w-full h-72 rounded-lg bg-zinc-700 ">
             <img class="w-full h-full object-fit-cover" src="<%= user.image %>" alt="img">
           </div>
           <h3 class="text-xl mt-3 tracking-tighter"><%= user.name %></h3>
           <h5 class="text-zinc-500"><%= user.email %></h5>    
           <div class="flex mt-4 gap-3">
-            <a class="bg-yellow-500 px-4 py-2 rounded-lg" href="#editUser">Edit User</a>
+            <a class="bg-yellow-500 px-4 py-2 rounded-lg" href="edit/<%= user._id %>">Edit User</a>
             <a class="bg-red-500 px-4 py-2 rounded-lg" href="/delete/<%= user._id %>">Delete User</a>
          </div>
        </div>
