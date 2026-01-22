@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require("mongoose");
 const path = require('path');
 const userModel = require('./models/user');
 
@@ -20,18 +21,6 @@ app.get('/read', async (req, res) => {
   res.render('read', { title: 'Read All Users', Users });
 });
 
-app.get('/delete/:id', async (req, res) => {
-  await userModel.findByIdAndDelete({ _id: req.params.id });
-  res.redirect("/read");
-});  
-
-app.get('/edit/:userid', async (req, res) => {
-  let user = await userModel.findOne({ _id: req.params.userid });
-  res.render("edit", {user});
-});  
- 
-
-
 app.post("/create", async (req, res) => {
   let { name, email, image} = req.body;
   let createUser = await userModel.create({
@@ -42,8 +31,35 @@ app.post("/create", async (req, res) => {
   res.redirect("/read");
 });
 
+app.get('/delete/:id', async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.redirect("/read");
+  }
+
+  await userModel.findByIdAndDelete({ _id: req.params.id });
+  res.redirect("/read");
+});  
+
+app.get('/edit/:userid', async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.userid)) {
+    return res.redirect("/read");
+  } 
+
+  let user = await userModel.findOne({ _id: req.params.userid });
+  res.render("edit", {user});
+});  
+ 
+
+
+
+
 app.post("/update/:id", async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.redirect("/read");
+  }
+
   let { name, email, image} = req.body;
+
   let updateUser = await userModel.findByIdAndUpdate(req.params.id, {
      name,
      email,
