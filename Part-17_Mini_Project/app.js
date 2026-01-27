@@ -17,9 +17,22 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
   res.render('index');
 });
-app.get('/profile',isLoggedIn, (req, res) => {
-  console.log(req.user);
-  res.render('login');
+app.get('/profile',isLoggedIn, async (req, res) => {
+  let user = await usermodel.findOne({email: req.user.email}).populate("posts");
+  // console.log(user);
+  res.render('profile', {user});
+});
+app.post('/post',isLoggedIn, async (req, res) => {
+  let user = await usermodel.findOne({email: req.user.email});
+  let{content} = req.body;
+  let post = await postmodel.create({
+    user: user._id,
+    content
+  });
+
+  user.posts.push(post._id);
+  await user.save();
+  res.redirect("/profile");
 });
 
 app.get('/login', (req, res) => {
@@ -62,7 +75,7 @@ app.post('/login', async (req, res) => {
         "shhhh"
       );
       res.cookie("token", token);
-      res.redirect("/"); // or dashboard
+      res.redirect("/profile");  
     }else{
       res.redirect("/login");
     }
@@ -76,7 +89,8 @@ app.get('/logout', (req, res) => {
 
 function isLoggedIn(req, res, next){
   if(!req.cookies.token) {
-    return res.send("you need to login first");
+    // return res.send("you need to login first");
+    return res.redirect("/login");
   } 
   try{
     let data = jwt.verify(req.cookies.token, "shhhh");
